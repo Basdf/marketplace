@@ -53,58 +53,54 @@ export default function List() {
     }
 
     return (
-        <>
-            <div style={{ display: "flex", flexFlow: "row wrap" }}>
+        <div style={{ display: "flex", flexFlow: "row wrap" }}>
+            <Card className={classes.root}>
+                <CardMedia
+                    className={classes.media}
+                    image="http://mco-s1-p.mlstatic.com/696670-MCO42114671332_062020-O.jpg"
+                    title="Paella dish"
+                />
+                <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
+                        celular xiaomi redmi note 9 pro 128gb/6 ram / 64mp + forro
+                         </Typography>
 
-                <Card className={classes.root}>
-                    <CardMedia
-                        className={classes.media}
-                        image="http://mco-s1-p.mlstatic.com/696670-MCO42114671332_062020-O.jpg"
-                        title="Paella dish"
-                    />
-                    <CardContent>
-                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
-                            celular xiaomi redmi note 9 pro 128gb/6 ram / 64mp + forro
-                        </Typography>
+                    <Rating
+                        style={{ marginTop: 10, color: '#772CE8' }}
+                        name="half-rating"
+                        value={(Math.round(4.2))}
+                        precision={0.5} readOnly />
 
-                        <Rating
-                            style={{ marginTop: 10, color: '#772CE8' }}
-                            name="half-rating"
-                            value={(Math.round(4.2))}
-                            precision={0.5} readOnly />
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8" }}>
+                        xiaomi
+                         </Typography>
 
-                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8" }}>
-                            xiaomi
-                        </Typography>
+                    <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
+                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
+                            Medellin
+                             </Typography>
 
-                        <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
-                            <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
-                                Medellin
-                            </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
+                            BlackStore
+                             </Typography>
+                    </div>
 
-                            <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
-                                BlackStore
-                            </Typography>
-                        </div>
-
-                        <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
-                            <strike>
-                                <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
-                                    {formatCurrency("es-CO", "COP", 0, 35000000)}
-                                </Typography>
-                            </strike>
-
-                            <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8", fontWeight: "bold" }}>
+                    <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
+                        <strike>
+                            <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
                                 {formatCurrency("es-CO", "COP", 0, 35000000)}
                             </Typography>
-                        </div>
-                    </CardContent>
-                    <Button className={classes.button} variant="contained" color="primary" onClick={() => { dispatch(addProductAction("hola soy el objeto del carro :V")) }}>
-                        Agregar al carrito
-                    </Button>
-                </Card>
+                        </strike>
 
-            </div>
-        </>
+                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8", fontWeight: "bold" }}>
+                            {formatCurrency("es-CO", "COP", 0, 35000000)}
+                        </Typography>
+                    </div>
+                </CardContent>
+                <Button className={classes.button} variant="contained" color="primary" onClick={() => { dispatch(addProductAction("hola soy el objeto del carro :V")) }}>
+                    Agregar al carrito
+                     </Button>
+            </Card>
+        </div>
     );
 }
