@@ -12,7 +12,7 @@ export const initialItemState = {
 }
 export const initialSearchState = {
     loading: false,
-    search: '',
+    search: [],
     error: ''
 }
 export const initialCarState = {

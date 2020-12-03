@@ -5,6 +5,7 @@ import {
     fetchSearchRequest,
     fetchSearchSuccess,
     addProduct,
+    removeProduct,
     buyProduct,
     fetchItemSuccess,
     fetchItemRequest,
@@ -61,11 +62,17 @@ export const carReducer = (state = initialCarState, action) => {
         case buyProduct:
             return {
                 ...state,
-                buy:action.payload
+                buy: action.payload
             }
         case addProduct:
             return {
-                car:[...state.car,action.payload],
+                car: [...state.car, action.payload],
+            }
+        case removeProduct:
+            return {
+                car: state.car.filter(function (element) {
+                    return element !== action.payload
+                }),
             }
         default: return state;
     }
