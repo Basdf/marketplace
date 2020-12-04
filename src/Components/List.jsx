@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { useDispatch } from 'react-redux';
-import { addProductAction } from './../redux/actions';
+import { addProductAction, fetchItemAction } from './../redux/actions';
 import { useSelector } from 'react-redux';
 
 
@@ -42,7 +42,6 @@ export default function List() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const seeker = useSelector(state => state.search);
-
     function formatCurrency(locales, currency, fractionDigits, number) {
         var formatted = new Intl.NumberFormat(locales, {
             style: 'currency',
@@ -51,56 +50,76 @@ export default function List() {
         }).format(number);
         return formatted;
     }
-
     return (
-        <div style={{ display: "flex", flexFlow: "row wrap" }}>
-            <Card className={classes.root}>
-                <CardMedia
-                    className={classes.media}
-                    image="http://mco-s1-p.mlstatic.com/696670-MCO42114671332_062020-O.jpg"
-                    title="Paella dish"
-                />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
-                        celular xiaomi redmi note 9 pro 128gb/6 ram / 64mp + forro
-                         </Typography>
+        <>
+            {
+                seeker.search !== '' &&
+                <div style={{ display: "flex", flexFlow: "row wrap" }}>
+                    {
+                        seeker.search.map((shop) => {
+                            return (
+                                shop.items.map((item) => {
+                                    return (
 
-                    <Rating
-                        style={{ marginTop: 10, color: '#772CE8' }}
-                        name="half-rating"
-                        value={(Math.round(4.2))}
-                        precision={0.5} readOnly />
+                                        <Card key={item.id} className={classes.root} onClick={()=>{
+                                            dispatch(fetchItemAction(item.id))
+                                        }}>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image={item.thumbnail}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", height: 60 }}>
+                                                    {item.name}
+                                                </Typography>
 
-                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8" }}>
-                        xiaomi
-                         </Typography>
+                                                <Rating
+                                                    style={{ marginTop: 10, color: '#772CE8' }}
+                                                    name="half-rating"
+                                                    value={(Math.round(item.rating))}
+                                                    precision={0.5} readOnly />
 
-                    <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
-                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
-                            Medellin
-                             </Typography>
+                                                <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8" }}>
+                                                    {item.brand}
+                                                </Typography>
 
-                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
-                            BlackStore
-                             </Typography>
-                    </div>
+                                                <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
+                                                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
+                                                        {item.city.name}
+                                                    </Typography>
 
-                    <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
-                        <strike>
-                            <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
-                                {formatCurrency("es-CO", "COP", 0, 35000000)}
-                            </Typography>
-                        </strike>
+                                                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", fontWeight: "bold" }}>
+                                                        {shop.seller.name}
+                                                    </Typography>
+                                                </div>
 
-                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8", fontWeight: "bold" }}>
-                            {formatCurrency("es-CO", "COP", 0, 35000000)}
-                        </Typography>
-                    </div>
-                </CardContent>
-                <Button className={classes.button} variant="contained" color="primary" onClick={() => { dispatch(addProductAction("hola soy el objeto del carro :V")) }}>
-                    Agregar al carrito
-                     </Button>
-            </Card>
-        </div>
+                                                <div style={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between" }}>
+                                                    <strike>
+                                                        <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B" }}>
+                                                            {formatCurrency("es-CO", "COP", 0, (item.price + item.price * .1))}
+                                                        </Typography>
+                                                    </strike>
+
+                                                    <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#772CE8", fontWeight: "bold" }}>
+                                                        {formatCurrency("es-CO", "COP", 0, item.price)}
+                                                    </Typography>
+                                                </div>
+                                            </CardContent>
+                                            <Button className={classes.button} variant="contained" color="primary" onClick={() => {
+                                                item.seller = shop.seller
+                                                dispatch(addProductAction(item))
+                                            }}>
+                                                Agregar al carrito
+                                                </Button>
+                                        </Card>)
+
+                                })
+                            )
+                        })
+                    }
+                </div>
+            }
+        </>
+
     );
 }
