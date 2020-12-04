@@ -17,7 +17,7 @@ export const removeProduct = "REMOVEPRODUCT"
 const urls = [
     "http://blackstorenetcore.eba-py2kgy33.us-east-1.elasticbeanstalk.com/api/",
     "http://development.eba-2veq4gdy.us-west-2.elasticbeanstalk.com/django_api/",
-    "http://blackstorenetcore.eba-py2kgy33.us-east-1.elasticbeanstalk.com/api/"
+    "tienda3"
 ]
 
 export const buyProductAction = (product) => {
@@ -110,7 +110,7 @@ export const fetchItemAction = (id, seller) => {
             case "django_api":
                 url = urls[1]
                 break
-            case "BlackStore2":
+            case "tienda3":
                 url = urls[2]
                 break
             default:
