@@ -25,6 +25,20 @@ const useStyles = makeStyles((theme) => ({
         width: 400,
         height: 400,
     },
+    container: {
+        margin: 5,
+        width: 200,
+        height: 'auto',
+        lineHeight: 115,
+        textAlign: "center",
+        border: "1px solid rgb(221, 221, 221)",
+    },
+    resizeFitCenter: {
+        maxWidth: "100%",
+        maxHeight: "100%",
+        verticalAlign: "middle",
+
+    }
 }));
 
 export default function Details(props) {
@@ -45,7 +59,7 @@ export default function Details(props) {
             <Card className={classes.root}>
                 <CardMedia
                     className={classes.cover}
-                    image={item.item.picture[0]}
+                    image={item.item.pictures[0]}
                 />
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
@@ -70,13 +84,14 @@ export default function Details(props) {
                             {formatCurrency("es-CO", "COP", 0, item.item.price)}
                         </Typography>
                         <Typography style={{ margin: 20, color: "#5C5E64", display: 'inline' }} variant="h4" >
-                            {(Math.floor((100 - (item.item.price * 100) / item.item.price + item.item.price * .1))) + "% OFF"}
+                            {(Math.floor((100 - (item.item.price * 100) / (item.item.price + item.item.price * .1)))) + "% OFF"}
+
                         </Typography>
                         {
                             item.item.seller.logo.includes("http") &&
-                            <div class='container'>
+                            <div className={classes.container}>
                                 <a href='#'>
-                                    <img class='resize_fit_center'
+                                    <img className={classes.resize_fit_center}
                                         src={item.item.seller.logo} />
                                 </a>
                             </div>
