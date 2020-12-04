@@ -11,6 +11,14 @@ export const fetchItemFailure = "FETCHDETAILSEARCHFAILURE"
 
 export const buyProduct = "BUYPRODUCT"
 export const addProduct = "ADDPRODUCT"
+export const removeProduct = "REMOVEPRODUCT"
+
+
+const urls = [
+    "http://blackstorenetcore.eba-py2kgy33.us-east-1.elasticbeanstalk.com/api/",
+    "http://development.eba-2veq4gdy.us-west-2.elasticbeanstalk.com/django_api/",
+    "http://blackstorenetcore.eba-py2kgy33.us-east-1.elasticbeanstalk.com/api/"
+]
 
 export const buyProductAction = (product) => {
     return {
@@ -21,6 +29,12 @@ export const buyProductAction = (product) => {
 export const addProductAction = (product) => {
     return {
         type: addProduct,
+        payload: product
+    }
+}
+export const removeProductAction = (product) => {
+    return {
+        type: removeProduct,
         payload: product
     }
 }
@@ -47,15 +61,20 @@ export const fetchSearchFailureAction = (error) => {
     }
 }
 export const fetchSearchAction = (query) => {
-    return (dispatch) => {
-        dispatch(fetchSearchRequestAction());
-        Axios.get(`https://urlaqui/api/search?q=${query}`)
-            .then(response => {
-                dispatch(fetchSearchSuccessAction(response))
-            })
-            .catch(error => {
-                dispatch(fetchSearchFailureAction("No product found with that word"))
-            })
+    return async (dispatch) => {
+        dispatch(fetchSearchRequestAction())
+        var array = []
+        for (var url of urls) {
+            url = url.concat("search?q=", `${query}`)
+            let response = await Axios.get(url).catch(err => { })
+            if (response)
+                array = [...array, response.data]
+        }
+        if (array.length) {
+            dispatch(fetchSearchSuccessAction(array))
+        } else {
+            dispatch(fetchSearchFailureAction("No product found with that word"))
+        }
     }
 }
 
@@ -80,16 +99,30 @@ export const fetchItemFailureAction = (error) => {
     }
 }
 
-export const fetchItemAction = (id) => {
-    return (dispatch) => {
-        dispatch(fetchItemRequestAction());
-        dispatch(fetchItemFailureAction("Product not found"));
-        Axios.get(`https://urlaqui/api/item/${id}`)
-            .then(response => {
-                dispatch(fetchItemSuccessAction(response))
-            })
+export const fetchItemAction = (id, seller) => {
+    return async (dispatch) => {
+        dispatch(fetchItemRequestAction())
+        var url
+        switch (seller) {
+            case "BlackStore":
+                url = urls[0]
+                break
+            case "django_api":
+                url = urls[1]
+                break
+            case "BlackStore2":
+                url = urls[2]
+                break
+            default:
+                url = ""
+                break
+        }
+        url = url.concat("item/", `${id}`)
+        let response = await Axios.get(url)
             .catch(error => {
                 dispatch(fetchItemFailureAction("Product not found"))
             })
+        if (response)
+            dispatch(fetchItemSuccessAction(response.data))
     }
 }
