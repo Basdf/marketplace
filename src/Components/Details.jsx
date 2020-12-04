@@ -3,6 +3,9 @@ import React from 'react';
 import Rating from '@material-ui/lab/Rating';
 import { useSelector, useDispatch } from 'react-redux';
 import { addProductAction } from './../redux/actions';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Carousel, CarouselItem, CarouselControl, CarouselIndicators, CarouselCaption} from 'reactstrap';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,72 +64,106 @@ export default function Details() {
         return formatted;
     }
 
-    return (
-        <>
-            <Card className={classes.root}>
-                <CardMedia
-                    className={classes.cover}
-                    image={item.item.pictures[0]}
-                />
-                <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                        <Typography variant="h4" style={{ color: "#5C5E64" }}>
-                            {item.item.name}
-                        </Typography>
-                        <Typography variant="h6" style={{ color: "#772CE8" }}>
-                            {item.item.brand}
-                        </Typography>
-                        <Rating
-                            style={{ marginTop: 10, color: "#772CE8" }}
-                            name="half-rating"
-                            value={(Math.round(item.item.rating))}
-                            precision={0.5} readOnly />
+    //carousel
+    const [activeIndex, setActiveIndex] = useState(0);
+  const [animating, setAnimating] = useState(false);
 
-                        <strike>
-                            <Typography style={{ marginTop: 20, color: "#5C5E64" }} variant="h5" >
-                                {formatCurrency("es-CO", "COP", 0, item.item.price + item.item.price * .1)}
-                            </Typography>
-                        </strike>
-                        <Typography style={{ display: 'inline', color: "#772CE8" }} variant="h3" >
-                            {formatCurrency("es-CO", "COP", 0, item.item.price)}
+  const next = () => {
+    if (animating) return;
+    const nextIndex = activeIndex === item.item.pictures.length - 1 ? 0 : activeIndex + 1;
+    setActiveIndex(nextIndex);
+  }
+
+  const previous = () => {
+    if (animating) return;
+    const nextIndex = activeIndex === 0 ? item.item.pictures.length - 1 : activeIndex - 1;
+    setActiveIndex(nextIndex);
+  }
+
+  const goToIndex = (newIndex) => {
+    if (animating) return;
+    setActiveIndex(newIndex);
+  }
+
+  const slides = item.item.pictures.map((URL) => {
+    return (
+      <CarouselItem
+        onExiting={() => setAnimating(true)}
+        onExited={() => setAnimating(false)}
+        key={URL}
+      >
+        <img src={URL} alt="" width="50%" />
+        <CarouselCaption captionText="" captionHeader="" />
+      </CarouselItem>
+    );
+  });
+
+  return (
+    <>
+        <Card className={classes.root}>
+            <CardMedia
+                className={classes.cover}
+                image={item.item.pictures[0]}
+            />
+            <div className={classes.details}>
+                <CardContent className={classes.content}>
+                    <Typography variant="h4" style={{ color: "#5C5E64" }}>
+                        {item.item.name}
+                    </Typography>
+                    <Typography variant="h6" style={{ color: "#772CE8" }}>
+                        {item.item.brand}
+                    </Typography>
+                    <Rating
+                        style={{ marginTop: 10, color: "#772CE8" }}
+                        name="half-rating"
+                        value={(Math.round(item.item.rating))}
+                        precision={0.5} readOnly />
+
+                    <strike>
+                        <Typography style={{ marginTop: 20, color: "#5C5E64" }} variant="h5" >
+                            {formatCurrency("es-CO", "COP", 0, item.item.price + item.item.price * .1)}
                         </Typography>
-                        <Typography style={{ margin: 20, color: "#5C5E64", display: 'inline' }} variant="h4" >
-                            {(Math.floor((100 - (item.item.price * 100) / (item.item.price + item.item.price * .1)))) + "% OFF"}
-                        </Typography>
-                        {
-                            item.item.seller.logo.includes("http") &&
-                            <div class='container'>
-                                <a href='#'>
-                                    <img class='resize_fit_center'
-                                        src={item.item.seller.logo} />
-                                </a>
-                            </div>
-                        }
-                        <Typography variant="h5" style={{ marginTop: 20, color: "#5C5E64" }}>
-                            {item.item.seller.name}
-                        </Typography>
-                        <Typography variant="h6" style={{ color: "#5C5E64" }}>
-                            {item.item.city.name}
-                        </Typography>
-                    </CardContent>
-                    <div className={classes.content2}>
-                        <Button className={classes.button} variant="contained" color="primary"
-                            onClick={() => {
-                                dispatch(addProductAction(item.item))
-                            }}>
-                            Agregar al carrito
-                        </Button>
-                        <Button className={classes.button} variant="contained" color="primary" >
-                            Comprar
-                        </Button>
-                    </div>
+                    </strike>
+                    <Typography style={{ display: 'inline', color: "#772CE8" }} variant="h3" >
+                        {formatCurrency("es-CO", "COP", 0, item.item.price)}
+                    </Typography>
+                    <Typography style={{ margin: 20, color: "#5C5E64", display: 'inline' }} variant="h4" >
+                        {(Math.floor((100 - (item.item.price * 100) / (item.item.price + item.item.price * .1)))) + "% OFF"}
+                    </Typography>
+                    {
+                        item.item.seller.logo.includes("http") &&
+                        <div class='container'>
+                            <a href='#'>
+                                <img class='resize_fit_center'
+                                    src={item.item.seller.logo} />
+                            </a>
+                        </div>
+                    }
+                    <Typography variant="h5" style={{ marginTop: 20, color: "#5C5E64" }}>
+                        {item.item.seller.name}
+                    </Typography>
+                    <Typography variant="h6" style={{ color: "#5C5E64" }}>
+                        {item.item.city.name}
+                    </Typography>
+                </CardContent>
+                <div className={classes.content2}>
+                    <Button className={classes.button} variant="contained" color="primary"
+                        onClick={() => {
+                            dispatch(addProductAction(item.item))
+                        }}>
+                        Agregar al carrito
+                    </Button>
+                    <Button className={classes.button} variant="contained" color="primary" >
+                        Comprar
+                    </Button>
                 </div>
-            </Card>
-            <Card className={classes.root}>
-                <Typography variant="h6" style={{ color: "#5C5E64" }}>
-                    {item.item.description}
-                </Typography>
-            </Card>
-        </>
-    )
+            </div>
+        </Card>
+        <Card className={classes.root}>
+            <Typography variant="h6" style={{ color: "#5C5E64" }}>
+                {item.item.description}
+            </Typography>
+        </Card>
+    </>
+)
 }
