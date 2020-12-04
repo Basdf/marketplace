@@ -61,14 +61,17 @@ export default function List() {
                                 shop.items.map((item) => {
                                     return (
 
-                                        <Card key={item.id} className={classes.root} onClick={()=>{
-                                            dispatch(fetchItemAction(item.id))
-                                        }}>
+                                        <Card key={item.id} className={classes.root}>
                                             <CardMedia
                                                 className={classes.media}
                                                 image={item.thumbnail}
+                                                onClick={() => {
+                                                    dispatch(fetchItemAction(item.id, shop.seller.name))
+                                                }}
                                             />
-                                            <CardContent>
+                                            <CardContent onClick={() => {
+                                                dispatch(fetchItemAction(item.id, shop.seller.name))
+                                            }}>
                                                 <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", height: 60 }}>
                                                     {item.name}
                                                 </Typography>
@@ -105,14 +108,15 @@ export default function List() {
                                                     </Typography>
                                                 </div>
                                             </CardContent>
-                                            <Button className={classes.button} variant="contained" color="primary" onClick={() => {
-                                                item.seller = shop.seller
-                                                dispatch(addProductAction(item))
-                                            }}>
+                                            <Button className={classes.button} variant="contained" color="primary"
+                                                onClick={() => {
+                                                    item.seller = shop.seller
+                                                    dispatch(addProductAction(item))
+                                                }}>
                                                 Agregar al carrito
-                                                </Button>
-                                        </Card>)
-
+                                            </Button>
+                                        </Card>
+                                    )
                                 })
                             )
                         })
