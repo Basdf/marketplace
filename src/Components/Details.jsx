@@ -1,11 +1,13 @@
-import { Card, CardContent, CardMedia, makeStyles, Typography, Button } from '@material-ui/core';
+import { Card, CardContent, makeStyles, Typography, Button } from '@material-ui/core';
 import React from 'react';
 import Rating from '@material-ui/lab/Rating';
 import { useSelector, useDispatch } from 'react-redux';
-import { addProductAction } from './../redux/actions';
+import { addProductAction, buyProductAction } from './../redux/actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel, CarouselItem, CarouselControl, CarouselIndicators, CarouselCaption } from 'reactstrap';
 import { useState } from 'react';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,7 +56,6 @@ export default function Details() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const item = useSelector(state => state.item);
-
     function formatCurrency(locales, currency, fractionDigits, number) {
         var formatted = new Intl.NumberFormat(locales, {
             style: 'currency',
@@ -90,9 +91,13 @@ export default function Details() {
             <CarouselItem
                 onExiting={() => setAnimating(true)}
                 onExited={() => setAnimating(false)}
-                key={URL}
-            >
-                <img src={URL} alt="" width="300px" height="300px" />
+                key={URL}>
+                <img src={URL} alt="" width="300px" height="300px"
+                    style={{
+                        objectFit: "contain",
+                        objectPosition: "center center"
+                    }}
+                />
                 <CarouselCaption captionText="" captionHeader="" />
             </CarouselItem>
         );
@@ -100,6 +105,7 @@ export default function Details() {
 
     return (
         <>
+
             <Card className={classes.root}>
                 <Carousel
                     activeIndex={activeIndex}
@@ -140,11 +146,9 @@ export default function Details() {
                         </Typography>
                         {
                             item.item.seller.logo.includes("http") &&
-                            <div class='container'>
-                                <a href='#'>
-                                    <img class='resize_fit_center'
-                                        src={item.item.seller.logo} alt="" />
-                                </a>
+                            <div className='container'>
+                                <img className='resize_fit_center'
+                                    src={item.item.seller.logo} alt="" />
                             </div>
                         }
                         <Typography variant="h5" style={{ marginTop: 20, color: "#5C5E64" }}>
@@ -161,7 +165,10 @@ export default function Details() {
                             }}>
                             Agregar al carrito
                     </Button>
-                        <Button className={classes.button} variant="contained" color="primary" >
+                        <Button className={classes.button} variant="contained" color="primary"
+                            onClick={() => {
+                                dispatch(buyProductAction(item.item))
+                            }}>
                             Comprar
                     </Button>
                     </div>
