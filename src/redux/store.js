@@ -1,4 +1,3 @@
-import { composeWithDevTools } from 'redux-devtools-extension'
 import { carReducer, itemReducer, searchReducer } from './reducers'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
@@ -26,8 +25,6 @@ const rootReducers = combineReducers({
     car: carReducer
 })
 
-const store = createStore(rootReducers, composeWithDevTools(
-    applyMiddleware(thunk)
-))
+const store = createStore(rootReducers, applyMiddleware(thunk))
 
 export default store;
