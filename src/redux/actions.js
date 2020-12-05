@@ -110,7 +110,7 @@ export const fetchItemAction = (id, seller) => {
             case "django_api":
                 url = urls[1]
                 break
-            case "BlackStore2":
+            case "zoco de oro":
                 url = urls[2]
                 break
             default:
