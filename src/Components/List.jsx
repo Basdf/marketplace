@@ -6,8 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-import { useDispatch } from 'react-redux';
-import { addProductAction, fetchItemAction } from './../redux/actions';
+import { actionAddProduct, actionItem } from './../redux/actions';
 import { useSelector } from 'react-redux';
 
 
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function List() {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const seeker = useSelector(state => state.search);
     function formatCurrency(locales, currency, fractionDigits, number) {
         var formatted = new Intl.NumberFormat(locales, {
@@ -66,11 +64,11 @@ export default function List() {
                                                 className={classes.media}
                                                 image={item.thumbnail}
                                                 onClick={() => {
-                                                    dispatch(fetchItemAction(item.id, shop.seller.name))
+                                                    actionItem(item.id, shop.seller.name)
                                                 }}
                                             />
                                             <CardContent onClick={() => {
-                                                dispatch(fetchItemAction(item.id, shop.seller.name))
+                                                actionItem(item.id, shop.seller.name)
                                             }}>
                                                 <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", height: 60 }}>
                                                     {item.name}
@@ -111,7 +109,7 @@ export default function List() {
                                             <Button className={classes.button} variant="contained" color="primary"
                                                 onClick={() => {
                                                     item.seller = shop.seller
-                                                    dispatch(addProductAction(item))
+                                                    actionAddProduct(item)
                                                 }}>
                                                 Agregar al carrito
                                             </Button>
@@ -124,6 +122,5 @@ export default function List() {
                 </div>
             }
         </>
-
     );
 }

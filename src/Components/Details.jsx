@@ -1,8 +1,8 @@
 import { Card, CardContent, makeStyles, Typography, Button } from '@material-ui/core';
 import React from 'react';
 import Rating from '@material-ui/lab/Rating';
-import { useSelector, useDispatch } from 'react-redux';
-import { addProductAction, buyProductAction } from './../redux/actions';
+import { useSelector } from 'react-redux';
+import { actionAddProduct, actionBuyProduct } from './../redux/actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel, CarouselItem, CarouselControl, CarouselIndicators, CarouselCaption } from 'reactstrap';
 import { useState } from 'react';
@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Details() {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const item = useSelector(state => state.item);
     function formatCurrency(locales, currency, fractionDigits, number) {
         var formatted = new Intl.NumberFormat(locales, {
@@ -161,13 +160,13 @@ export default function Details() {
                     <div className={classes.content2}>
                         <Button className={classes.button} variant="contained" color="primary"
                             onClick={() => {
-                                dispatch(addProductAction(item.item))
+                                actionAddProduct(item.item)
                             }}>
                             Agregar al carrito
                     </Button>
                         <Button className={classes.button} variant="contained" color="primary"
                             onClick={() => {
-                                dispatch(buyProductAction(item.item))
+                                actionBuyProduct(item.item)
                             }}>
                             Comprar
                     </Button>
