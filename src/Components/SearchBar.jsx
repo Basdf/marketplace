@@ -5,7 +5,8 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { actionSearch } from '../redux/actions';
+import { fetchSearchAction } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,11 +34,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SearchBar() {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const [searchTerm, setSearchTerm] = useState("");
     const search = (e) => {
         e.preventDefault();
-        actionSearch(searchTerm)
+        dispatch(fetchSearchAction(searchTerm)) 
     }
     return (
         <>

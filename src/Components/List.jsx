@@ -6,8 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-import { actionAddProduct, actionItem } from './../redux/actions';
-import { useSelector } from 'react-redux';
+import { addProductAction, fetchItemAction } from './../redux/actions';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 
 
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function List() {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const seeker = useSelector(state => state.search);
     function formatCurrency(locales, currency, fractionDigits, number) {
@@ -64,11 +66,11 @@ export default function List() {
                                                 className={classes.media}
                                                 image={item.thumbnail}
                                                 onClick={() => {
-                                                    actionItem(item.id, shop.seller.name)
+                                                    dispatch(fetchItemAction(item.id, shop.seller.name))
                                                 }}
                                             />
                                             <CardContent onClick={() => {
-                                                actionItem(item.id, shop.seller.name)
+                                                dispatch(fetchItemAction(item.id, shop.seller.name))
                                             }}>
                                                 <Typography variant="body2" color="textSecondary" component="p" style={{ color: "#3B3B3B", height: 60 }}>
                                                     {item.name}
@@ -109,7 +111,7 @@ export default function List() {
                                             <Button className={classes.button} variant="contained" color="primary"
                                                 onClick={() => {
                                                     item.seller = shop.seller
-                                                    actionAddProduct(item)
+                                                    dispatch(addProductAction(item))
                                                 }}>
                                                 Agregar al carrito
                                             </Button>

@@ -7,9 +7,10 @@ const Urls = [
     ["zoco de oro", "https://yurgqjbmwb.execute-api.us-east-2.amazonaws.com/dev/api/"]
 ]
 
-export const searchItems = (query) => {
+export const searchItems = async (query) => {
     var array = []
-    for (var url of Urls) {
+    var url=""
+    for (var Url of Urls) {
         url = Url[1].concat(`search?q=${query}`)
         let response = await Axios.get(url).catch(() => { })
         if (response)
@@ -18,7 +19,7 @@ export const searchItems = (query) => {
     return array
 }
 
-export const itemDetail = (id, seller) => {
+export const itemDetail = async (id, seller) => {
     var url
     url = Urls.filter(Url => Url[0] === seller)
     url = url[0][1].concat(`item/${id}`)
