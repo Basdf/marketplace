@@ -58,7 +58,7 @@ export const fetchSearchAction = (query) => {
 
         dispatch(fetchSearchRequestAction())
         let response = await searchItems(query).catch(() => { })
-        if (response[0].items.length) {
+        if (response.length) {
             dispatch(fetchSearchSuccessAction(response))
         } else {
             dispatch(fetchSearchFailureAction("No product found with that word"))
