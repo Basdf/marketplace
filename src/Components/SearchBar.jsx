@@ -44,10 +44,7 @@ export default function SearchBar() {
     }
     return (
         <>
-            <div className="logo">
-                <img src={imagen}  />
-            </div>
-
+            <img src={imagen} />
             <div className='header'>
                 <Paper component="form" className={classes.root} onSubmit={search}>
                     <IconButton className={classes.iconButton} onClick={search} >
