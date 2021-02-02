@@ -49,4 +49,15 @@
   vertical-align: middle;
 }
 
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background-color: #9C65F9;
+}
+
+
+
 
