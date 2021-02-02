@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { useDispatch } from 'react-redux';
 import { fetchSearchAction } from '../redux/actions';
+import imagen from '../Image/oldwave-logo-horizontal.png'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,20 +44,28 @@ export default function SearchBar() {
     }
     return (
         <>
-            <Paper component="form" className={classes.root} onSubmit={search}>
-                <IconButton className={classes.iconButton} onClick={search} >
-                    <SearchIcon />
-                </IconButton>
-                <Divider className={classes.divider} orientation="vertical" />
-                <InputBase
-                    className={classes.input}
-                    placeholder="Buscar productos, marcas y más…"
-                    value={searchTerm}
-                    onChange={(event) => {
-                        setSearchTerm(event.target.value)
-                    }}
-                />
-            </Paper>
+            <div className="logo">
+                <img src={imagen}  />
+            </div>
+
+            <div className='header'>
+                <Paper component="form" className={classes.root} onSubmit={search}>
+                    <IconButton className={classes.iconButton} onClick={search} >
+                        <SearchIcon />
+                    </IconButton>
+                    <Divider className={classes.divider} orientation="vertical" />
+                    <InputBase
+                        className={classes.input}
+                        placeholder="Buscar productos, marcas y más…"
+                        value={searchTerm}
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value)
+                        }}
+                    />
+                </Paper>
+
+            </div>
+
         </>
     )
 
