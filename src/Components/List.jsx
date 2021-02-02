@@ -6,9 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-import { useDispatch } from 'react-redux';
 import { addProductAction, fetchItemAction } from './../redux/actions';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 
 
@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function List() {
-    const classes = useStyles();
     const dispatch = useDispatch();
+    const classes = useStyles();
     const seeker = useSelector(state => state.search);
     function formatCurrency(locales, currency, fractionDigits, number) {
         var formatted = new Intl.NumberFormat(locales, {
@@ -124,6 +124,5 @@ export default function List() {
                 </div>
             }
         </>
-
     );
 }

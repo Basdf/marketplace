@@ -5,8 +5,9 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { useDispatch } from 'react-redux';
 import { fetchSearchAction } from '../redux/actions';
+import imagen from '../Image/oldwave-logo-horizontal.png'
+import { useDispatch } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,29 +35,34 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SearchBar() {
+    const dispatch = useDispatch();
     const classes = useStyles();
-    const dispatch = useDispatch()
     const [searchTerm, setSearchTerm] = useState("");
     const search = (e) => {
         e.preventDefault();
-        dispatch(fetchSearchAction(searchTerm))
+        dispatch(fetchSearchAction(searchTerm)) 
     }
     return (
         <>
-            <Paper component="form" className={classes.root} onSubmit={search}>
-                <IconButton className={classes.iconButton} onClick={search} >
-                    <SearchIcon />
-                </IconButton>
-                <Divider className={classes.divider} orientation="vertical" />
-                <InputBase
-                    className={classes.input}
-                    placeholder="Buscar productos, marcas y más…"
-                    value={searchTerm}
-                    onChange={(event) => {
-                        setSearchTerm(event.target.value)
-                    }}
-                />
-            </Paper>
+            <img src={imagen} />
+            <div className='header'>
+                <Paper component="form" className={classes.root} onSubmit={search}>
+                    <IconButton className={classes.iconButton} onClick={search} >
+                        <SearchIcon />
+                    </IconButton>
+                    <Divider className={classes.divider} orientation="vertical" />
+                    <InputBase
+                        className={classes.input}
+                        placeholder="Buscar productos, marcas y más…"
+                        value={searchTerm}
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value)
+                        }}
+                    />
+                </Paper>
+
+            </div>
+
         </>
     )
 

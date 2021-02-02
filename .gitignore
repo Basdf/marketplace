@@ -6,6 +6,10 @@
 .pnp.js
 
 # testing
+/cypress/fixtures
+/cypress/videos
+/cypress/support
+/cypress/plugins
 /coverage
 
 # production
